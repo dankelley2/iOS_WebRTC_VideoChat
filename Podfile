@@ -6,8 +6,6 @@ target 'VideoChat' do
   use_frameworks!
 
   # Pods for VideoChat
-  
-  pod 'WebRTC-lib'
 
   target 'VideoChatTests' do
     inherit! :search_paths

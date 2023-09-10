@@ -48,8 +48,8 @@ class SignalingClient {
         AsyncThrowingStream { continuation in
             let listener = getCandidatesCollection(collection, chatRoomId)
                 .addSnapshotListener { querySnapshot, error in
-                    if let querySnapshot = querySnapshot {
-                        querySnapshot.documentChanges.forEach { documentChange in
+                    if let docChanges = querySnapshot?.documentChanges {
+                        (docChanges as [AnyObject]).forEach { documentChange in
                             if documentChange.type == .added {
                                 do {
                                     let iceCandidate = try documentChange.document.data(as: IceCandidate.self)
@@ -76,7 +76,7 @@ class SignalingClient {
         try await deleteSpdDocument(collection, chatRoomId)
         let candidatesQuerySnapshot = try await getCandidatesCollection(collection, chatRoomId)
             .getDocuments()
-        for queryDocumentSnapshot in candidatesQuerySnapshot.documents {
+        for queryDocumentSnapshot in (candidatesQuerySnapshot.documents as [AnyObject]) {
             try await queryDocumentSnapshot.reference.delete()
         }
     }

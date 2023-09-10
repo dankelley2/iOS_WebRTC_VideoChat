@@ -9,7 +9,7 @@ import Foundation
 import WebRTC
 
 enum SdpType: String, Codable {
-    case offer, prAnswer, answer
+    case offer, prAnswer, answer, rollback
 
     var rtcSdpType: RTCSdpType {
         switch self {
@@ -19,6 +19,8 @@ enum SdpType: String, Codable {
             return .answer
         case .prAnswer:
             return .prAnswer
+        case .rollback:
+            return .rollback
         }
     }
 }
@@ -41,6 +43,8 @@ struct SessionDescription: Codable {
             self.type = .prAnswer
         case .answer:
             self.type = .answer
+        case .rollback:
+            self.type = .rollback
         @unknown default:
             fatalError("Unknown RTCSessionDescription type: \(rtcSessionDescription.type.rawValue)")
         }
